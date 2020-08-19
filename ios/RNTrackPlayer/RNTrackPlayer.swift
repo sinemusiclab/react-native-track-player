@@ -18,7 +18,6 @@ public class RNTrackPlayer: RCTEventEmitter {
 
     private lazy var player: QueuedAudioPlayer = {
         let player = QueuedAudioPlayer()
-        player.bufferDuration = 1
         return player
     }()
     
@@ -152,6 +151,10 @@ public class RNTrackPlayer: RCTEventEmitter {
         // configure if control center metdata should auto update
         let autoUpdateMetadata: Bool = config["autoUpdateMetadata"] as? Bool ?? true
         player.automaticallyUpdateNowPlayingInfo = autoUpdateMetadata
+
+        // configure buffer size
+        let minBuffer: TimeInterval = config["minBuffer"] as? TimeInterval ?? 0
+        player.bufferDuration = minBuffer
         
         // configure audio session - category, options & mode
         var sessionCategory: AVAudioSession.Category = .playback
